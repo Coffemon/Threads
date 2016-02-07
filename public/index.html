@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Threadz</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+<style> 
+#chatwindow {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+#messagewindow, #inputcontainer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	border: 1px solid #000;
+}
+#messagewindow{
+	overflow: auto;
+	top: 0;
+	bottom: 3em;
+}
+#inputcontainer {
+	display: block;
+	bottom: 0;
+	height: 1em;
+	padding: .5em;
+	margin-top: 1em;
+}
+#inputcontainer > p {
+	margin: 0;
+}
+#send {
+	float: right;
+}
+#ul {
+	list-style-type: none;
+}
+</style>
+
+</head>
+
+<body>
+<!-- Alla inputs och knappar är statiska, de finns på sidan hela tiden! -->
+
+	<!--<input name="title" id="titleinput"> 
+
+	<input name="text" id="textinput">
+
+	<button id="send" onclick="postThread()"> POST </button>
+
+	<button id="change" onclick="putThread()"> PUT </button>
+
+	<button id="delete" onclick="deleteThread()"> DELETE </button> -->
+
+
+
+
+<ul id="ul"> 
+
+<!-- Här hamnar allt det icke-statiska, det som ska ändras och hämtas.
+Istället för att ladda om hela sidan varje gång, laddar vi bara om denna listan.
+Knappar och inputs är samma hela tiden -->
+
+</ul>
+
+
+
+
+<!-- DETTA ÄR VÅR HANDLEBAR-TEMPLATE! VAR INTE RÄDD FÖR ATT ÄNDRA DESIGN!--> 
+
+		<script type="text/x-handlebars-template" id="template">
+				<div id="chatwindow">
+					<div id="messagewindow">
+						{{#each threads}}
+							<p>{{text}}</p>
+						{{/each}}
+					</div>
+				</div>
+		</script>
+<!-- TEMPLATE SLUT -->
+<div id="inputcontainer">
+	<input name="text" id="textinput">
+	<button id="send" onclick="postThread()"> Send! </button>
+	<button id="delete" onclick="deleteThread()"> Delete </button>
+</div>
+			
+
+
+
+
+
+<script>
+// GET-funktionen körs automatiskt på sidan varje 200 millisekunder
+//Servern skickar vår data, och denna funktion slår ihop det med vår handlebars
+
+setInterval(function getThreads() {    
+		$.ajax({
+	  		url: "api/threads"
+		}).done(function (data){
+			// DATA = Data från servern, alltså vår threads-array!!
+
+			var src = document.getElementById("template").innerHTML;
+			var render = Handlebars.compile(src); 
+			var html = render(data);
+			document.getElementById("ul").innerHTML = html;
+		});
+}, 200)	
+//////////////////////////////////////////////////
+
+// Post med hjälp av enter!!
+$(document).ready(function(){
+    $('#textinput').keypress(function(e){
+      if(e.keyCode==13)
+      $('#send').click();
+    });
+});
+
+
+//funktion för att skicka ny tråd
+
+function postThread() {
+	//var title = document.getElementById("inputcontainer").value; 
+  	var text = document.getElementById("textinput").value; 
+
+
+	$.ajax({
+	  	url: "api/threads",
+	  	method: "POST",
+	  	data: {text: text} // Här åker vår data till servern!
+	}).done(function (data){
+  		textinput.value = '';
+	})
+
+
+}
+
+
+
+// Funktion för att text och title i en tråd som finns! 
+//!!! OBS, skriv först din ändring i inputar, sen tryck på PUT-knapp!! 
+// Trådarna börjar på 1, finns inget index 0
+function putThread() {
+  	//var title = document.getElementById("titleinput").value; 
+  	var text = document.getElementById("textinput").value; 
+	var id = prompt("vilken tråd vill du ändra?")
+
+	$.ajax({
+	  	url: "api/threads/" +id,
+	  	method: "PUT",
+	  	data: {title: title, text: text} // här åker vår nya data till server!
+	}).done(function (data){
+			
+	})
+}
+////////////////////////////////////////////////////////
+
+
+
+
+/// funktion för att ta bort en hel tråd
+// Trådarna börjar på 1, finns inget index 0
+function deleteThread() {
+	var id = prompt("vilket id vill du radera?");
+
+	$.ajax({
+	  	url: "api/threads/" +id,
+	  	type: "DELETE",
+	}).done(function (data){	
+
+	})
+}
+
+
+
+
+
+
+</script>
+</body>
+</html>
