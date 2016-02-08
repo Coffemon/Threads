@@ -7,6 +7,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
 <style> 
+/*#main-header {
+	height: 200px;
+}*/
 #chatwindow {
 	position: absolute;
 	top: 0;
@@ -23,7 +26,8 @@
 #messagewindow{
 	overflow: auto;
 	top: 0;
-	bottom: 3em;
+	bottom: 2em;
+	border-bottom: none;
 }
 #inputcontainer {
 	display: block;
@@ -35,10 +39,21 @@
 #inputcontainer > p {
 	margin: 0;
 }
+#textinput {
+	width: 942px;
+}
+#delete {
+	float: right;
+}
+#change {
+	float: right;
+}
 #send {
 	float: right;
 }
 #ul {
+	margin: 0;
+	padding: 0;
 	list-style-type: none;
 }
 </style>
@@ -46,20 +61,7 @@
 </head>
 
 <body>
-<!-- Alla inputs och knappar är statiska, de finns på sidan hela tiden! -->
-
-	<!--<input name="title" id="titleinput"> 
-
-	<input name="text" id="textinput">
-
-	<button id="send" onclick="postThread()"> POST </button>
-
-	<button id="change" onclick="putThread()"> PUT </button>
-
-	<button id="delete" onclick="deleteThread()"> DELETE </button> -->
-
-
-
+<!-- <header id="main-header" role="banner"><img src="/img/logo.png" alt="Chat logo"></header> -->
 
 <ul id="ul"> 
 
@@ -72,7 +74,7 @@ Knappar och inputs är samma hela tiden -->
 
 
 
-<!-- DETTA ÄR VÅR HANDLEBAR-TEMPLATE! VAR INTE RÄDD FÖR ATT ÄNDRA DESIGN!--> 
+<!-- TEMPLATE--> 
 
 		<script type="text/x-handlebars-template" id="template">
 				<div id="chatwindow">
@@ -88,6 +90,7 @@ Knappar och inputs är samma hela tiden -->
 	<input name="text" id="textinput">
 	<button id="send" onclick="postThread()"> Send! </button>
 	<button id="delete" onclick="deleteThread()"> Delete </button>
+	<button id="change" onclick="putThread()"> Put </button>
 </div>
 			
 
@@ -96,8 +99,7 @@ Knappar och inputs är samma hela tiden -->
 
 
 <script>
-// GET-funktionen körs automatiskt på sidan varje 200 millisekunder
-//Servern skickar vår data, och denna funktion slår ihop det med vår handlebars
+// Hämtar ny data på 200 ms
 
 setInterval(function getThreads() {    
 		$.ajax({
@@ -132,7 +134,7 @@ function postThread() {
 	$.ajax({
 	  	url: "api/threads",
 	  	method: "POST",
-	  	data: {text: text} // Här åker vår data till servern!
+	  	data: {text: text} // data till servern!
 	}).done(function (data){
   		textinput.value = '';
 	})
@@ -142,9 +144,7 @@ function postThread() {
 
 
 
-// Funktion för att text och title i en tråd som finns! 
-//!!! OBS, skriv först din ändring i inputar, sen tryck på PUT-knapp!! 
-// Trådarna börjar på 1, finns inget index 0
+// funktion för att ändra tråd.
 function putThread() {
   	//var title = document.getElementById("titleinput").value; 
   	var text = document.getElementById("textinput").value; 
@@ -153,7 +153,7 @@ function putThread() {
 	$.ajax({
 	  	url: "api/threads/" +id,
 	  	method: "PUT",
-	  	data: {title: title, text: text} // här åker vår nya data till server!
+	  	data: {text: text} // nya data till server!
 	}).done(function (data){
 			
 	})
@@ -164,7 +164,6 @@ function putThread() {
 
 
 /// funktion för att ta bort en hel tråd
-// Trådarna börjar på 1, finns inget index 0
 function deleteThread() {
 	var id = prompt("vilket id vill du radera?");
 

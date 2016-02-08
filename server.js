@@ -5,7 +5,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(__dirname + '/public'));
 
 var threads = [
-	{text: ""},
+	
 ]
 
 
@@ -27,7 +27,6 @@ app.post('/api/threads', function (req, res) {
 
 app.put("/api/threads/:id", function (req, res) {
 
-	threads[req.params.id-1].title = req.body.title
 	threads[req.params.id-1].text = req.body.text
 
  		res.redirect("/threads");
@@ -42,8 +41,8 @@ app.delete('/api/threads/:id', function (req, res) {
 	res.redirect("/threads");
 });
 
-var server = app.listen(5000, function () {
+var server = app.listen(1337, function () {
 	var port = server.address().port;
 
-	console.log('Server up and running on port ' + port);
+	console.log('Server up and running on leet connection: ' + port);
 });
