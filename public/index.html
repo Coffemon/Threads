@@ -48,6 +48,7 @@
 	color: white;
 	font-size: 1.62em;
 	margin-top: -8px;
+
 }
 .button:hover {
 	background-color: white;
@@ -72,11 +73,11 @@
 	list-style-type: none;
 }
 p {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 0;
+  	display: -webkit-box;
+  	display: -webkit-flex;
+  	display: -ms-flexbox;
+  	display: flex;
+  	margin: 0;
 }
 </style>
 
@@ -111,9 +112,9 @@ Knappar och inputs är samma hela tiden -->
 <div id="inputcontainer">
 	<input name="title" id="titleinput" placeholder="Name">
 	<input name="text" id="textinput" placeholder="Your message">
-	<button class="button send-button" onclick="postThread()"> Send </button>
-	<button class="button delete-button" onclick="deleteThread()"> Delete </button>
-	<button class="button change-button" onclick="putThread()"> Put </button>
+	<button class="button send-button"> Send </button>
+	<button class="button delete-button"> Delete </button>
+	<button class="button change-button"> Put </button>
 </div>
 			
 
@@ -141,10 +142,19 @@ setInterval(function getThreads() {
 // Post med hjälp av enter!!
 $(document).ready(function(){
     $('#textinput').keypress(function(e){
-      if(e.keyCode==13)
-      $('#send').click();
-    });
+      	if(e.keyCode==13)
+      	$('.send-button').click();
+   	});
 });
+
+//function empty() {
+//    var x;
+//    x = document.getElementById("textinput").value;
+//    if (x == "") {
+//        alert("You have to write something!");
+//        return false;
+//    };
+// }
 
 
 //funktion för att skicka ny tråd
@@ -153,16 +163,26 @@ function postThread() {
 	var title = document.getElementById("titleinput").value; 
   	var text = document.getElementById("textinput").value; 
 
+		$.ajax({
+		  	url: "api/threads",
+		  	method: "POST",
+		  	data: {title: title, text: text} // data till servern!
+		}).done(function (data){
+	  		textinput.value = '';
+		})
+}
 
-	$.ajax({
-	  	url: "api/threads",
-	  	method: "POST",
-	  	data: {title: title, text: text} // data till servern!
-	}).done(function (data){
-  		textinput.value = '';
-	})
-
-
+var locked = false;
+function alertSend () {
+    if (!locked) {
+        locked = true;
+        setTimeout(unlock, 1000);
+        $('#doneStatus').hide();
+        $('#loadingStatus').show();
+    }
+}
+function unlock () {
+    locked = false;
 }
 
 
@@ -197,6 +217,15 @@ function deleteThread() {
 
 	})
 }
+
+var sendBtn = document.querySelector('.send-button');
+sendBtn.addEventListener('click', alertSend(), postThread);
+
+var deleteBtn = document.querySelector('.delete-button');
+deleteBtn.addEventListener('click', deleteThread);
+
+var changeBtn = document.querySelector('.change-button');
+changeBtn.addEventListener('click', putThread);
 
 
 
