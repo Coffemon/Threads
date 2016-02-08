@@ -48,8 +48,18 @@
 #change {
 	float: right;
 }
-#send {
+.button {
 	float: right;
+	transition-duration: 0.3s;
+}
+.send-button {
+	background-color: #4CAF50;
+	border-radius: 12px;
+	color: white;
+}
+.send-button:hover {
+	background-color: white;
+	color: black;
 }
 #ul {
 	margin: 0;
@@ -96,9 +106,9 @@ Knappar och inputs är samma hela tiden -->
 <div id="inputcontainer">
 	<input name="title" id="titleinput" placeholder="Name">
 	<input name="text" id="textinput" placeholder="Your message">
-	<button id="send" onclick="postThread()"> Send! </button>
-	<button id="delete" onclick="deleteThread()"> Delete </button>
-	<button id="change" onclick="putThread()"> Put </button>
+	<button class="button send-button" onclick="postThread()"> Send </button>
+	<button class="button delete-button" onclick="deleteThread()"> Delete </button>
+	<button class="button change-button" onclick="putThread()"> Put </button>
 </div>
 			
 
