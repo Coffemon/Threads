@@ -20,13 +20,14 @@ app.get('/api/threads', function (req, res) {
 app.post('/api/threads', function (req, res) {
 	console.log(req.body)
 	threads.push({
+		title: req.body.title,
 		text: req.body.text
 	})
 	res.redirect("/threads")
 });
 
 app.put("/api/threads/:id", function (req, res) {
-
+	threads[req.params.id-1].title = req.body.title
 	threads[req.params.id-1].text = req.body.text
 
  		res.redirect("/threads");

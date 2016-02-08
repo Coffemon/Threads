@@ -40,7 +40,7 @@
 	margin: 0;
 }
 #textinput {
-	width: 942px;
+	width: 300px;
 }
 #delete {
 	float: right;
@@ -53,8 +53,15 @@
 }
 #ul {
 	margin: 0;
-	padding: 0;
+	padding: 0.2em;
 	list-style-type: none;
+}
+p {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0;
 }
 </style>
 
@@ -80,14 +87,15 @@ Knappar och inputs är samma hela tiden -->
 				<div id="chatwindow">
 					<div id="messagewindow">
 						{{#each threads}}
-							<p>{{text}}</p>
+							<p>{{title}}: {{text}}</p>
 						{{/each}}
 					</div>
 				</div>
 		</script>
 <!-- TEMPLATE SLUT -->
 <div id="inputcontainer">
-	<input name="text" id="textinput">
+	<input name="title" id="titleinput" placeholder="Name">
+	<input name="text" id="textinput" placeholder="Your message">
 	<button id="send" onclick="postThread()"> Send! </button>
 	<button id="delete" onclick="deleteThread()"> Delete </button>
 	<button id="change" onclick="putThread()"> Put </button>
@@ -127,14 +135,14 @@ $(document).ready(function(){
 //funktion för att skicka ny tråd
 
 function postThread() {
-	//var title = document.getElementById("inputcontainer").value; 
+	var title = document.getElementById("titleinput").value; 
   	var text = document.getElementById("textinput").value; 
 
 
 	$.ajax({
 	  	url: "api/threads",
 	  	method: "POST",
-	  	data: {text: text} // data till servern!
+	  	data: {title: title, text: text} // data till servern!
 	}).done(function (data){
   		textinput.value = '';
 	})
@@ -146,14 +154,14 @@ function postThread() {
 
 // funktion för att ändra tråd.
 function putThread() {
-  	//var title = document.getElementById("titleinput").value; 
+  	var title = document.getElementById("titleinput").value; 
   	var text = document.getElementById("textinput").value; 
 	var id = prompt("vilken tråd vill du ändra?")
 
 	$.ajax({
 	  	url: "api/threads/" +id,
 	  	method: "PUT",
-	  	data: {text: text} // nya data till server!
+	  	data: {title: title, text: text} // nya data till server!
 	}).done(function (data){
 			
 	})
