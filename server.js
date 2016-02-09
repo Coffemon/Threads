@@ -4,10 +4,7 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(__dirname + '/public'));
 
-var threads = [
-	
-]
-
+var threads = [];
 
 app.get('/threads', function (req, res) {
 	res.sendFile("index.html", {root:__dirname+ "/public"})
@@ -32,7 +29,6 @@ app.put("/api/threads/:id", function (req, res) {
 
  		res.redirect("/threads");
 })
-
 
 app.delete('/api/threads/:id', function (req, res) {
 	//delete threads[req.params.id-1]	
