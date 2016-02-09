@@ -103,7 +103,7 @@ Knappar och inputs är samma hela tiden -->
 				<div id="chatwindow">
 					<div id="messagewindow">
 						{{#each threads}}
-							<p>{{title}}: {{text}}</p>
+							<p class='speech'>{{title}}: {{text}}</p>
 						{{/each}}
 					</div>
 				</div>
@@ -161,29 +161,41 @@ $(document).ready(function(){
 
 function postThread() {
 	var title = document.getElementById("titleinput").value; 
-  	var text = document.getElementById("textinput").value; 
+  	var text = document.getElementById("textinput").value;
+  	var textValue = textinput.value;
+  	var textValueLength = textinput.value.length;
+  	var titleValue = titleinput.value;
+  	var titleValueLength = titleinput.value.length;
 
-		$.ajax({
-		  	url: "api/threads",
-		  	method: "POST",
-		  	data: {title: title, text: text} // data till servern!
-		}).done(function (data){
-	  		textinput.value = '';
-		})
+  	// If sats som förhindrar att man kan skicka tomma meddelanden
+  	// Förhindrar även från att skicka meddelanden utan namn.
+ 	if(textValue !== '' && textValueLength > 0) {
+		if(titleValue !== '' && titleValueLength > 0) {
+
+
+			$.ajax({
+			  	url: "api/threads",
+			  	method: "POST",
+			  	data: {title: title, text: text} // data till servern!
+			}).done(function (data){
+		  		textinput.value = '';
+			})
+		}	
+	}
 }
 
-var locked = false;
-function alertSend () {
-    if (!locked) {
-        locked = true;
-        setTimeout(unlock, 1000);
-        $('#doneStatus').hide();
-        $('#loadingStatus').show();
-    }
-}
-function unlock () {
-    locked = false;
-}
+//var locked = false;
+//function alertSend () {
+//    if (!locked) {
+//        locked = true;
+//        setTimeout(unlock, 1000);
+//        $('#doneStatus').hide();
+//        $('#loadingStatus').show();
+//    }
+//}
+//function unlock () {
+//    locked = false;
+//}
 
 
 
@@ -219,7 +231,7 @@ function deleteThread() {
 }
 
 var sendBtn = document.querySelector('.send-button');
-sendBtn.addEventListener('click', alertSend(), postThread);
+sendBtn.addEventListener('click', postThread);
 
 var deleteBtn = document.querySelector('.delete-button');
 deleteBtn.addEventListener('click', deleteThread);
