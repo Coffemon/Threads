@@ -139,23 +139,6 @@ setInterval(function getThreads() {
 }, 200)	
 //////////////////////////////////////////////////
 
-// Post med hjälp av enter!!
-$(document).ready(function(){
-    $('#textinput').keypress(function(e){
-      	if(e.keyCode==13)
-      	$('.send-button').click();
-   	});
-});
-
-//function empty() {
-//    var x;
-//    x = document.getElementById("textinput").value;
-//    if (x == "") {
-//        alert("You have to write something!");
-//        return false;
-//    };
-// }
-
 
 //funktion för att skicka ny tråd
 
@@ -184,20 +167,13 @@ function postThread() {
 	}
 }
 
-//var locked = false;
-//function alertSend () {
-//    if (!locked) {
-//        locked = true;
-//        setTimeout(unlock, 1000);
-//        $('#doneStatus').hide();
-//        $('#loadingStatus').show();
-//    }
-//}
-//function unlock () {
-//    locked = false;
-//}
-
-
+// Post med hjälp av enter!!
+$(document).ready(function(){
+    $('#textinput').keypress(function(e){
+      	if(e.keyCode==13)
+      	$('.send-button').click();
+   	});
+});
 
 // funktion för att ändra tråd.
 function putThread() {
