@@ -1,0 +1,99 @@
+#chatwindow {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 20px;
+}
+#messagewindow, #inputcontainer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	border: 1px solid #000;
+}
+#messagewindow{
+	overflow: auto;
+	top: 0;
+	bottom: 2em;
+	border-bottom: none;
+	display: flex;
+	padding-left: 20px;
+}
+#inputcontainer {
+	display: block;
+	bottom: 0;
+	height: 1em;
+	padding: .5em;
+	margin-top: 1em;
+}
+#inputcontainer > p {
+	margin: 0;
+}
+#textinput {
+	width: 300px;
+}
+.button {
+	float: right;
+	transition-duration: 0.4s;
+	color: white;
+	font-size: 1.62em;
+	margin-top: -8px;
+	text-shadow: 1px 1px 1px #000;
+
+}
+.button:hover {
+	background-color: white;
+	color: black;
+}
+.send-button {
+	background-color: #4CAF50;
+	border: 1px solid #4CAF50;
+	margin-right: -8px;
+}
+.delete-button {
+	background-color: #f44336;
+	border: 1px solid #f44336;
+}
+.change-button {
+	background-color: #008CBA;
+	border: 1px solid #008CBA;
+}
+#ul {
+	margin: 0;
+	padding: 0.2em;
+	list-style-type: none;
+}
+.speech {
+  	display: -webkit-box;
+  	display: -webkit-flex;
+  	display: -ms-flexbox;
+  	display: flex;
+  	margin: 0;
+}
+.bubble {
+    position: relative;
+    padding: 0px;
+    background: #B0FCFF;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 2px 2px 10px 0px #616161;
+    -moz-box-shadow: 2px 2px 10px 0px #616161;
+    box-shadow: 2px 2px 10px 0px #616161;
+    margin-left: 18px;
+    margin-top; 4px;
+}
+
+.bubble:after {
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: -15px;
+    border-style: solid;
+    border-width: 15px 15px 15px 0;
+    border-color: transparent #B0FCFF;
+    display: block;
+    width: 0;
+    z-index: 1;
+}
